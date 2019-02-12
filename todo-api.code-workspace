@@ -2,6 +2,12 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "/mnt/bb4b3120-3737-4a3f-8110-12de9eb9843e/projects/education/todo-front"
+		},
+		{
+			"path": "/mnt/bb4b3120-3737-4a3f-8110-12de9eb9843e/projects/education/todo-graphql"
 		}
 	],
 	"settings": {}
