@@ -1,0 +1,14 @@
+{
+  "ProjectFilePath": "/mnt/bb4b3120-3737-4a3f-8110-12de9eb9843e/projects/education/todo-api/todo-api.csproj",
+  "TargetFramework": "netcoreapp2.2",
+  "TagHelpers": [],
+  "Configuration": {
+    "ConfigurationName": "MVC-2.1",
+    "LanguageVersion": "2.1",
+    "Extensions": [
+      {
+        "ExtensionName": "MVC-2.1"
+      }
+    ]
+  }
+}
