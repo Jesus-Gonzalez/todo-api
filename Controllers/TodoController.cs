@@ -31,24 +31,39 @@ namespace todo_api.Controllers
         }
 
         [HttpPost]
-        public async Task<string> Post(Todo todo)
+        public async Task<object> Post([FromBody] Todo todo)
         {
             using (var ctx = new TodoContext()) {
                 var id = Guid.NewGuid().ToString();
                 todo.id = id;
-                todo.lastModificationDate = ((DateTimeOffset)new DateTime()).ToUnixTimeSeconds();
+                todo.lastModificationDate = DateTimeOffset.Now.ToUnixTimeSeconds();
 
                 await ctx.Todos
                     .AddAsync(todo);
 
                 var saved = await ctx.SaveChangesAsync() > 0;
 
-                return id;
+                return new {
+                    todo = todo,
+                    success = saved
+                };
             }
         }
 
-        [HttpPut("{id}")]
-        public async Task<int> Put(string id, [FromBody] Todo todo)
+        [HttpPut]
+        public async Task<object> Put([FromBody] Todo todo)
+        {
+            using (var ctx = new TodoContext()) {
+                ctx.Todos.Update(todo);
+
+                return new {
+                    success = await ctx.SaveChangesAsync() > 0
+                };
+            }
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<object> Patch(string id, [FromBody] Todo todo)
         {
             using (var ctx = new TodoContext()) {
                 var entity = await ctx.Todos.SingleOrDefaultAsync();
@@ -61,24 +76,30 @@ namespace todo_api.Controllers
                 }
 
                 if (todo.name != null || todo.completed.HasValue) {
-                    entity.lastModificationDate = ((DateTimeOffset)new DateTime()).ToUnixTimeSeconds();
+                    entity.lastModificationDate = DateTimeOffset.Now.ToUnixTimeSeconds();
                 }
 
                 ctx.Todos.Update(entity);
 
-                return await ctx.SaveChangesAsync();
+                var saved = await ctx.SaveChangesAsync() > 0;
+
+                return new {
+                    success = saved
+                };
             }
         }
 
         [HttpDelete("{id}")]
-        public async Task<int> Delete(string id)
+        public async Task<object> Delete(string id)
         {
             using (var ctx = new TodoContext()) {
                 var entity = ctx.Todos.Remove(new Todo() {
                     id = id
                 });
 
-                return await ctx.SaveChangesAsync();
+                return new {
+                    success = await ctx.SaveChangesAsync() > 0
+                };
             }
         }
     }
