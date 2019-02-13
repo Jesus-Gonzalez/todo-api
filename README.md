@@ -1,6 +1,3 @@
-# GraphQL TODO API
+# todo-app backend
 
-## Description
-
-Backend REST services for the tasks sample application.
-
+backend REST services
